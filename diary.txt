@@ -1,0 +1,1 @@
+{"time":{"day":"Sunday","date":"30/1/2022","timeStamp":"0 : 51 AM"},"content":"This was a wonderful diary app."},{"time":{"day":"Sunday","date":"30/1/2022","timeStamp":"0 : 51 AM"},"content":"This was a wonderful diary app."}

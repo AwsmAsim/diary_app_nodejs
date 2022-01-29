@@ -1,5 +1,5 @@
 const fs = require('fs')
-
+const yargs = require('yargs')
 
 var timeStamp = ()=>{
     var dateInstance = new Date()
@@ -25,7 +25,7 @@ var timeStamp = ()=>{
         break;
         
     }
-    var date = date1 + ' / ' + month + ' / ' + year; // Date in format DD / MM / YYYY
+    var date = date1 + '/' + month + '/' + year; // Date in format DD / MM / YYYY
     var hour = dateInstance.getHours() 
     if (hour > 12){
         hour = hour%12;
@@ -35,16 +35,16 @@ var timeStamp = ()=>{
     return {day, date, timeStamp}
 }
 
-var parseTime = ()=>{
-
-}
-
 var writeDiary = ()=>{
     var time = timeStamp() // Get current time stamp
     // console.log(time)
 
     var content = fs.readFileSync('write_diary.txt').toString()
     // console.log(content)
+    if(content.length == 0){
+        console.log('No note added')
+        return;
+    }
 
     var data = {
         time: time,
@@ -54,13 +54,15 @@ var writeDiary = ()=>{
     var JSONdata = JSON.stringify(data)
     // console.log(JSONdata)
     var earlierData = fs.readFileSync('diary.txt').toString() // Reading data from diary 
+    // if(earlierData.length > 0){
+    //     earlierData = earlierData + ',' // Adding comma if not first document of the json
+    // }
+    // fs.writeFileSync('diary.txt', earlierData  + JSONdata); // Entering data in diary
     if(earlierData.length > 0){
-        earlierData = earlierData + ',' // Adding comma if not first document of the json
+        JSONdata =  ',' + JSONdata // Adding comma if not first document of the json
     }
-    fs.writeFileSync('diary.txt', earlierData  + JSONdata); // Entering data in diary
+    fs.appendFileSync('diary.txt', JSONdata);
 }
-
-// writeDiary()
 
 var readDiary = (requiredDate)=>{
     var content = fs.readFileSync('diary.txt').toString() // Buffer data TO String
@@ -92,8 +94,35 @@ var readDiary = (requiredDate)=>{
         // CONTENT
         // CONTENT
     }
+    if(content.length == 0){
+        console.log('Date data not present or invalid')
+    }
     fs.writeFileSync('display_diary.txt', content);
 
 }
 
-readDiary('29 / 1 / 2022')
+
+yargs.command({
+    command: 'read',
+    describe: 'Read diary from the specified date',
+    builder: {
+        date: {
+            type: 'string'
+        }
+    }, 
+    handler: (argv)=>{
+        readDiary(argv.date)
+        console.log('Read diary from the file display_diary.txt. ')
+    }
+})
+
+yargs.command({
+    command: 'write',
+    describe: 'Read diary from the specified date',
+    handler: (argv)=>{
+        writeDiary()
+        console.log('Diary added')
+    }
+})
+
+yargs.parse()
