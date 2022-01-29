@@ -1,3 +1,11 @@
+// By Asim Junaid 
+// The file is open source and can be used by anyone. 
+// However consider giving creadits when learnt or using the project. It will be really appreciated.
+// LinkedIn : https://www.linkedin.com/in/asim-junaid-07224517b/
+// Buy me a coffee : https://www.buymeacoffee.com/asimjunaidcodes
+// hashone : https://hashnode.com/@AwsmAsim
+
+
 const fs = require('fs')
 const yargs = require('yargs')
 
@@ -79,14 +87,14 @@ var readDiary = (requiredDate)=>{
         }
     }
 
-    var diaryContents = []
+    var requiredDiaryContents = []
     content = '';
     for(var i in diaries){
         var diary = diaries[i];
         var time = diary.time;
         var diaryTime = time.date + '\n' + time.day + ',  ' + time.timeStamp + '\n\n';
         var content = content + diaryTime + diary.content + '\n\n\n\n';
-        diaryContents.push(content)
+        requiredDiaryContents.push(content)
 
         // DD / MM / YYYY
         // SUNDAY,  10 : 25 PM

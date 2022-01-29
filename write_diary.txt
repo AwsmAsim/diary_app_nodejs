@@ -1,1 +1,1 @@
-This was a wonderful diary app.
+Today I made a diary app with Node js.
